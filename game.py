@@ -37,16 +37,16 @@ def play_game():
         for letter in range(len(guess)):
             if guess[letter] == answer[letter]:
                 print(colored(guess[letter], "green"), end = "")
-                keyboard = keyboard.replace(guess[letter], colored(guess[letter], "green"))
+                keyboard = keyboard.replace("["+guess[letter]+"]", "["+colored(guess[letter], "green")+"]")
             
             elif guess[letter] in answer:
                 print(colored(guess[letter], "yellow"), end = "")
                 if colored(guess[letter], "green") not in keyboard:
-                    keyboard = keyboard.replace(guess[letter], colored(guess[letter], "yellow"))
+                    keyboard = keyboard.replace("["+guess[letter]+"]", "["+colored(guess[letter], "yellow")+"]")
             
             else:
                 print(colored(guess[letter], "red"), end = "")
-                keyboard = keyboard.replace(guess[letter], colored(guess[letter], "red"))
+                keyboard = keyboard.replace("["+guess[letter]+"]", "["+colored(guess[letter], "red")+"]")
         print("\n", keyboard,"\n")
     print("You won!!!")
 
