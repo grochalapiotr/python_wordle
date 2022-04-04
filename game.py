@@ -1,5 +1,7 @@
+from calendar import c
 import random
 from termcolor import colored
+import time
 
 words=[]
 with open("words.txt","r") as w:
@@ -7,33 +9,72 @@ with open("words.txt","r") as w:
         words.append(word[:-1])
 
 
+
+def start_game():
+    print( """ ___         _    _             
+| . \ _ _  _| |_ | |_  ___ ._ _ 
+|  _/| | |  | |  | . |/ . \| ' |
+|_|  `_. |  |_|  |_|_|\___/|_|_|
+     <___'                      
+ _ _ _              _  _        
+| | | | ___  _ _  _| || | ___   
+| | | |/ . \| '_>/ . || |/ ._>  
+|__/_/ \___/|_|  \___||_|\___. """)
+
+    print("""\nMENU
+    1. Start game
+    2. About
+    3. Quit""")
+    menu = input("\nInput: ")
+    match menu:
+        case "1":
+            play_game()
+        case "2":
+            about()
+        case "3":
+            exit()
+
+
 def play_game():
+    commands = ["*quit*", "*cheat*", "*again*"]
     keyboard = """[q] [w] [e] [r] [t] [y] [u] [i] [o] [p]
   [a] [s] [d] [f] [g] [h] [j] [k] [l]
     [z] [x] [c] [v] [b] [n] [m]"""
+
     answer=random.choice(words)
     #print(answer)           #for testing
+
     while True:
-        guess = input("Enter 5 letter word: ")
+        guess = input("\nEnter 5 letter word: ")
 
-        while len(guess) > 5:
+        if guess in commands:
+            match guess:
+                case "*quit*":
+                    start_game()
+                case "*cheat*":
+                    print("["+answer+"]")
+                    continue
+                case "*again*":
+                    play_game()
+
+        if len(guess) > 5:
             print("Word is too long")
-            guess = input("Enter 5 letter word: ")
+            continue
         
-        while len(guess) < 5:
+        if len(guess) < 5:
             print("Word is too short")
-            guess = input("Enter 5 letter word: ")
+            continue
 
-        while guess not in words:
+        if guess not in words:
             print("It's not a word")
-            guess = input("Enter 5 letter word: ")
+            continue
         
         if guess == answer:
             print(colored(guess, "green"))
             break
 
-        guess = list(guess)
-        
+
+        guess = list(guess)        
         
         for letter in range(len(guess)):   
             #green color   
@@ -64,7 +105,16 @@ def play_game():
         print(''.join(guess))
         print("\n", keyboard,"\n")
     print("You won!!!")
+    time.sleep(2)
+    start_game()
+
+def about():
+    print("""\nAuthor:
+Year:""")
+    x = input("\nPress enter")
+    if x or not x:
+        start_game()
 
 
-
-play_game()
+start_game()
+#play_game()
